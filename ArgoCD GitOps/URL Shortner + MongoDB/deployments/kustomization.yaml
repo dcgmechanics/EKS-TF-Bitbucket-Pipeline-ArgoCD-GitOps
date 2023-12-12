@@ -1,0 +1,11 @@
+namespace: url-shortner
+resources:
+  - ../base/url-shortening
+  - ../base/mongodb
+  - backend-url-shortning-ingress.yaml
+  - backend-url-shortning-configmap.yaml
+patchesStrategicMerge:
+  - backend-url-shortning-deploy.yaml
+images:
+  - name: XXXXXXXXXXXX.dkr.ecr.ap-south-1.amazonaws.com/url-shortening-prod
+    newTag: '8'

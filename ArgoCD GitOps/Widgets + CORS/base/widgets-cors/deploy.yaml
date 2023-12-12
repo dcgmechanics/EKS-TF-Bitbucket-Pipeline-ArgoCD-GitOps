@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: widgets-cors
+spec:
+  selector:
+    matchLabels:
+      app: widgets-cors
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  replicas: 1
+  template:
+    metadata:
+      labels: 
+        app: widgets-cors
+    spec:
+      containers:
+        - name: widgets-cors
+          image: XXXXXXXXXXXX.dkr.ecr.ap-south-1.amazonaws.com/widgets-cors-prod
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "128Mi"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 11001
+              name: widgets-cors

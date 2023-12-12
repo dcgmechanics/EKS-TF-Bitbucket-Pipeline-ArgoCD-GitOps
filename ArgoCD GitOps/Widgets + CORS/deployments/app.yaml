@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: widgets
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: git@bitbucket.org:repo-name/argocd-gitops.git
+    path: deployments
+    targetRevision: prod-release-widgets
+    directory:
+      recurse: false
+      jsonnet: {}
+  destination:
+    namespace: widgets
+    server: 'https://kubernetes.default.svc'
+  syncPolicy:
+    automated:
+      prune: true
+      allowEmpty: true
+    syncOptions:
+      - PruneLast=true
+      - CreateNamespace=true

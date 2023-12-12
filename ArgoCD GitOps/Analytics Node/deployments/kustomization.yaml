@@ -1,0 +1,10 @@
+namespace: analytics-node
+resources:
+  - ../base/analytics-node
+  - backend-analytics-node-ingress.yaml
+  - backend-analytics-node-configmap.yaml
+patchesStrategicMerge:
+  - backend-analytics-node-deploy.yaml
+images:
+  - name: XXXXXXXXXXXX.dkr.ecr.ap-south-1.amazonaws.com/analytics-node-prod
+    newTag: '3'

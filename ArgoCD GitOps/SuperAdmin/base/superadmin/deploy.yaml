@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: superadmin
+spec:
+  selector:
+    matchLabels:
+      app: superadmin
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  replicas: 1
+  template:
+    metadata:
+      labels: 
+        app: superadmin
+    spec:
+      containers:
+        - name: superadmin
+          image: XXXXXXXXXXXX.dkr.ecr.ap-south-1.amazonaws.com/superadmin-prod
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "128Mi"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 80
+              name: superadmin

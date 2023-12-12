@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-laravel-configmap
+data:
+  APP_NAME: Main Laravel
+  APP_ENV: local
+  APP_DEBUG: 'true'
+  APP_URL:  https://api-laravel.domain.com

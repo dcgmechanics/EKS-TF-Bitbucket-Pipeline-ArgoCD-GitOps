@@ -1,0 +1,14 @@
+namespace: laravel
+resources:
+  - ../base/laravel
+  - ../base/laravel-worker
+  - backend-laravel-ingress.yaml
+  - backend-laravel-configmap.yaml
+patchesStrategicMerge:
+  - backend-laravel-deploy.yaml
+  - backend-laravel-worker-deploy.yaml
+images:
+  - name: XXXXXXXXXXXX.dkr.ecr.ap-south-1.amazonaws.com/laravel-prod
+    newTag: '7'
+  - name: XXXXXXXXXXXX.dkr.ecr.ap-south-1.amazonaws.com/laravel-worker-prod
+    newTag: '7'

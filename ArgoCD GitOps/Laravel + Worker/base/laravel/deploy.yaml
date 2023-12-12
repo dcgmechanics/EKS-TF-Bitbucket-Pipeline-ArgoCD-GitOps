@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: laravel
+spec:
+  selector:
+    matchLabels:
+      app: laravel
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  replicas: 2
+  template:
+    metadata:
+      labels: 
+        app: laravel
+    spec:
+      containers:
+        - name: laravel
+          image: XXXXXXXXXXXX.dkr.ecr.ap-south-1.amazonaws.com/laravel-prod
+          envFrom:
+            - configMapRef:
+                name: backend-laravel-configmap
+            - secretRef:
+                name: laravel-secret
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "512Mi"
+            limits:
+              memory: "1024Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 80
+              name: laravel
+          lifecycle:
+            postStart:
+              exec:
+                command: ["/usr/bin/php", "artisan", "passport:install"]

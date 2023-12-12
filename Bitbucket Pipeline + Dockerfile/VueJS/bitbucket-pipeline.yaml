@@ -1,0 +1,39 @@
+image: python:latest
+
+pipelines:
+  branches:
+    prod-release:
+      - step:
+          name: "CI | Deploy to vuejs-prod ECR"
+          size: 2x
+          caches:
+            - docker
+          services:
+            - docker
+          script:
+            - VERSION="${BITBUCKET_BUILD_NUMBER}"
+            - pip3 install awscli
+            - aws configure set aws_access_key_id ${ECR_ACCESS_KEY} --profile project-name-ecr
+            - aws configure set aws_secret_access_key ${ECR_SECRET_KEY} --profile project-name-ecr
+            - aws configure set region ${ECR_REGION} --profile project-name-ecr
+            - aws ecr get-login-password --region ap-south-1 --profile project-name-ecr | docker login --username AWS --password-stdin XXXXXXXXXXXX.dkr.ecr.ap-south-1.amazonaws.com
+            - docker build -t XXXXXXXXXXXX.dkr.ecr.ap-south-1.amazonaws.com/vuejs-prod:${VERSION} .
+            - docker push XXXXXXXXXXXX.dkr.ecr.ap-south-1.amazonaws.com/vuejs-prod:${VERSION}
+            
+      - step:
+           name: "CD | Update newTag vaule in 'prod-release-vuejs' GitOps"
+           trigger: manual
+           script:
+           - git clone https://x-token-auth:$GITOPS_AUTH_TOKEN@bitbucket.org/repo-name/argocd-gitops.git
+           - cd gitops
+           - git checkout prod-release-vuejs
+           - sed -i "s/newTag:.*$/newTag:\ '${BITBUCKET_BUILD_NUMBER}'/" ./deployments/kustomization.yaml
+           - cat ./deployments/kustomization.yaml
+           - git config user.email devops@dcgmechanics.com
+           - git add .
+           - git commit -m "newTag Updated by ${BITBUCKET_REPO_FULL_NAME}"
+           - git push
+definitions:
+  services:
+    docker:
+      memory: 2048

@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: laravel-worker
+spec:
+  selector:
+    matchLabels:
+      app: laravel-worker
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  replicas: 1
+  template:
+    metadata:
+      labels: 
+        app: laravel-worker
+    spec:
+      containers:
+        - name: laravel-worker
+          image: XXXXXXXXXXXX.dkr.ecr.ap-south-1.amazonaws.com/laravel-worker-prod
+          envFrom:
+            - configMapRef:
+                name: backend-laravel-configmap
+            - secretRef:
+                name: admin-laravel-secret
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "128Mi"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 80
+              name: laravel-worker
+          lifecycle:
+            postStart:
+              exec:
+                command: ["/usr/bin/php", "artisan", "passport:install"]
