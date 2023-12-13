@@ -26,7 +26,7 @@ $ kubectl apply -f deploy.yaml
 ```
 ### Source: https://kubernetes.github.io/ingress-nginx/deploy/#aws
 
-## Deploy Argocd NginX Server Ingress:
+## Deploy ArgoCD Pod Ingress Service:
 --------------------------------------
 ```python
 $ nano ingress.yaml
