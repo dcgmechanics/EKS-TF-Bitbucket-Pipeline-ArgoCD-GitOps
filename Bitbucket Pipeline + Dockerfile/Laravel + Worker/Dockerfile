@@ -59,6 +59,8 @@ RUN composer install
 # Create the symbolic link from local storage to public
 RUN php artisan storage:link
 
+# Generate passport keys
+RUN php artisan passport:keys
 
 RUN chown -R www-data:www-data /var/www/app
 
