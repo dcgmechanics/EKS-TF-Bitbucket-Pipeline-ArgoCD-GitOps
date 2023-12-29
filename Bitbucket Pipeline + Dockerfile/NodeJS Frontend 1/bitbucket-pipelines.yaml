@@ -4,7 +4,7 @@ pipelines:
   branches:
     prod-release:
       - step:
-          name: "CI | Deploy to superadmin-prod ECR"
+          name: "CI | Deploy to nodejs-frontend-1-prod ECR"
           caches:
             - docker
           services:
@@ -16,15 +16,15 @@ pipelines:
             - aws configure set aws_secret_access_key ${ECR_SECRET_KEY} --profile project-name-ecr
             - aws configure set region ${ECR_REGION} --profile project-name-ecr
             - aws ecr get-login-password --region ap-south-1 --profile project-name-ecr | docker login --username AWS --password-stdin XXXXXXXXXXXX.dkr.ecr.ap-south-1.amazonaws.com
-            - docker build -t XXXXXXXXXXXX.dkr.ecr.ap-south-1.amazonaws.com/superadmin-prod:${VERSION} .
-            - docker push XXXXXXXXXXXX.dkr.ecr.ap-south-1.amazonaws.com/superadmin-prod:${VERSION}
+            - docker build -t XXXXXXXXXXXX.dkr.ecr.ap-south-1.amazonaws.com/nodejs-frontend-1-prod:${VERSION} .
+            - docker push XXXXXXXXXXXX.dkr.ecr.ap-south-1.amazonaws.com/nodejs-frontend-1-prod:${VERSION}
       - step:
-           name: "CD | Update newTag vaule in 'prod-release-superadmin' GitOps"
+           name: "CD | Update newTag vaule in 'prod-release-nodejs-frontend-1' GitOps"
            trigger: manual
            script:
            - git clone https://x-token-auth:$GITOPS_AUTH_TOKEN@bitbucket.org/repo-name/argocd-gitops.git
            - cd gitops
-           - git checkout prod-release-superadmin
+           - git checkout prod-release-nodejs-frontend-1
            - sed -i "s/newTag:.*$/newTag:\ '${BITBUCKET_BUILD_NUMBER}'/" ./deployments/kustomization.yaml
            - cat ./deployments/kustomization.yaml
            - git config user.email devops@dcgmechanics.com

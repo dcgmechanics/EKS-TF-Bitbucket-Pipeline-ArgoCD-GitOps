@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodejs-frontend-backend
+spec:
+  selector:
+    matchLabels:
+      app: nodejs-frontend-backend
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  replicas: 1
+  template:
+    metadata:
+      labels: 
+        app: nodejs-frontend-backend
+    spec:
+      containers:
+        - name: nodejs-frontend-backend
+          image: XXXXXXXXXXXX.dkr.ecr.ap-south-1.amazonaws.com/nodejs-frontend-backend-prod
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "128Mi"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 80
+              name: nodejs-frontend-backend

@@ -1,9 +1,0 @@
-namespace: superadmin
-resources:
-  - ../base/superadmin
-  - frontend-superadmin-ingress.yaml
-patchesStrategicMerge:
-  - frontend-superadmin-deploy.yaml
-images:
-  - name: XXXXXXXXXXXX.dkr.ecr.ap-south-1.amazonaws.com/superadmin-prod
-    newTag: '3'

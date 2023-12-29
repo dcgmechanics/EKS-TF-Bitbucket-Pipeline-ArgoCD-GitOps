@@ -4,7 +4,7 @@ pipelines:
   branches:
     prod-release:
       - step:
-          name: "CI | Deploy to vuejs-prod ECR"
+          name: "CI | Deploy to nodejs-frontend-2-prod ECR"
           size: 2x
           caches:
             - docker
@@ -17,16 +17,16 @@ pipelines:
             - aws configure set aws_secret_access_key ${ECR_SECRET_KEY} --profile project-name-ecr
             - aws configure set region ${ECR_REGION} --profile project-name-ecr
             - aws ecr get-login-password --region ap-south-1 --profile project-name-ecr | docker login --username AWS --password-stdin XXXXXXXXXXXX.dkr.ecr.ap-south-1.amazonaws.com
-            - docker build -t XXXXXXXXXXXX.dkr.ecr.ap-south-1.amazonaws.com/vuejs-prod:${VERSION} .
-            - docker push XXXXXXXXXXXX.dkr.ecr.ap-south-1.amazonaws.com/vuejs-prod:${VERSION}
+            - docker build -t XXXXXXXXXXXX.dkr.ecr.ap-south-1.amazonaws.com/nodejs-frontend-2-prod:${VERSION} .
+            - docker push XXXXXXXXXXXX.dkr.ecr.ap-south-1.amazonaws.com/nodejs-frontend-2-prod:${VERSION}
             
       - step:
-           name: "CD | Update newTag vaule in 'prod-release-vuejs' GitOps"
+           name: "CD | Update newTag vaule in 'prod-release-nodejs-frontend-2' GitOps"
            trigger: manual
            script:
            - git clone https://x-token-auth:$GITOPS_AUTH_TOKEN@bitbucket.org/repo-name/argocd-gitops.git
            - cd gitops
-           - git checkout prod-release-vuejs
+           - git checkout prod-release-nodejs-frontend-2
            - sed -i "s/newTag:.*$/newTag:\ '${BITBUCKET_BUILD_NUMBER}'/" ./deployments/kustomization.yaml
            - cat ./deployments/kustomization.yaml
            - git config user.email devops@dcgmechanics.com

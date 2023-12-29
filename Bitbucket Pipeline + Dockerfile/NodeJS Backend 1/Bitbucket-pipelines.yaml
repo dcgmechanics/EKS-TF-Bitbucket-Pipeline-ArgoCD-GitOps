@@ -4,7 +4,7 @@ pipelines:
   branches:
     prod-release:
       - step:
-          name: "CI | Upload to url-shortening-prod ECR"
+          name: "CI | Upload to nodejs-backend-1-prod ECR"
           services:
             - docker
           script:
@@ -14,16 +14,16 @@ pipelines:
             - aws configure set aws_secret_access_key ${ECR_SECRET_KEY} --profile project-name-ecr
             - aws configure set region ${ECR_REGION} --profile project-name-ecr
             - aws ecr get-login-password --region ap-south-1 --profile project-name-ecr | docker login --username AWS --password-stdin XXXXXXXXXXXX.dkr.ecr.ap-south-1.amazonaws.com
-            - docker build -t XXXXXXXXXXXX.dkr.ecr.ap-south-1.amazonaws.com/url-shortening-prod:${VERSION} .
-            - docker push XXXXXXXXXXXX.dkr.ecr.ap-south-1.amazonaws.com/url-shortening-prod:${VERSION}
+            - docker build -t XXXXXXXXXXXX.dkr.ecr.ap-south-1.amazonaws.com/nodejs-backend-1-prod:${VERSION} .
+            - docker push XXXXXXXXXXXX.dkr.ecr.ap-south-1.amazonaws.com/nodejs-backend-1-prod:${VERSION}
             
       - step:
-           name: "CD | Update newTag vaule in 'prod-release-url-shortner' GitOps"
+           name: "CD | Update newTag vaule in 'prod-release-nodejs-backend-1' GitOps"
            trigger: manual
            script:
            - git clone https://x-token-auth:$GITOPS_AUTH_TOKEN@bitbucket.org/repo-name/argocd-gitops.git
            - cd gitops
-           - git checkout prod-release-url-shortner
+           - git checkout prod-release-nodejs-backend-1
            - sed -i "s/newTag:.*$/newTag:\ '${BITBUCKET_BUILD_NUMBER}'/" ./deployments/kustomization.yaml
            - cat ./deployments/kustomization.yaml
            - git config user.email devops@dcgmecahnics.com

@@ -1,0 +1,9 @@
+namespace: admin-vuejs
+resources:
+  - ../base/NodeJS Frontend 2
+  - frontend-nodejs-frontend-2-ingress.yaml
+patchesStrategicMerge:
+  - frontend-nodejs-frontend-2-deploy.yaml
+images:
+  - name: XXXXXXXXXXXX.dkr.ecr.ap-south-1.amazonaws.com/nodejs-frontend-2-prod
+    newTag: '6'

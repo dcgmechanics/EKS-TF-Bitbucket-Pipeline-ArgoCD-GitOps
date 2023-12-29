@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodejs-frontend-2
+spec:
+  selector:
+    matchLabels:
+      app: nodejs-frontend-2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  replicas: 1
+  template:
+    metadata:
+      labels: 
+        app: nodejs-frontend-2
+    spec:
+      containers:
+        - name: nodejs-frontend-2
+          image: XXXXXXXXXXXX.dkr.ecr.ap-south-1.amazonaws.com/nodejs-frontend-2-prod
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "128Mi"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 80
+              name: nodejs-frontend-2

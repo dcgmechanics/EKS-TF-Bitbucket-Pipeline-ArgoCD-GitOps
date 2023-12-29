@@ -1,0 +1,14 @@
+namespace: widgets
+resources:
+  - ../base/NodeJS Frontend + Backend
+  - ../base/CORS
+  - frontend-nodejs-frontend-backend-ingress.yaml
+  - backend-nodejs-frontend-backend-cors-ingress.yaml
+patchesStrategicMerge:
+  - frontend-nodejs-frontend-backend-deploy.yaml
+  - backend-nodejs-frontend-backend-cors-deploy.yaml
+images:
+  - name: XXXXXXXXXXXX.dkr.ecr.ap-south-1.amazonaws.com/nodejs-frontend-backend-prod
+    newTag: '8'
+  - name: 472598545260.dkr.ecr.ap-south-1.amazonaws.com/nodejs-frontend-backend-cors-prod
+    newTag: '8'

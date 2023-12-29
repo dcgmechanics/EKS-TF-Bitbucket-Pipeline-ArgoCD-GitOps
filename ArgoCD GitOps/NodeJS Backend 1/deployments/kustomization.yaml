@@ -1,0 +1,10 @@
+namespace: nodejs-backend-1
+resources:
+  - ../base/NodeJS Backend 1
+  - backend-nodejs-backend-1-ingress.yaml
+  - backend-nodejs-backend-1-configmap.yaml
+patchesStrategicMerge:
+  - backend-nodejs-backend-1-deploy.yaml
+images:
+  - name: XXXXXXXXXXXX.dkr.ecr.ap-south-1.amazonaws.com/nodejs-backend-1-prod
+    newTag: '3'

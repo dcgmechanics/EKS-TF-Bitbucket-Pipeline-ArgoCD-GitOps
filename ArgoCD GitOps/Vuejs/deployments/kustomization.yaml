@@ -1,9 +1,0 @@
-namespace: admin-vuejs
-resources:
-  - ../base/vuejs
-  - frontend-vuejs-ingress.yaml
-patchesStrategicMerge:
-  - frontend-vuejs-deploy.yaml
-images:
-  - name: XXXXXXXXXXXX.dkr.ecr.ap-south-1.amazonaws.com/vuejs-prod
-    newTag: '6'

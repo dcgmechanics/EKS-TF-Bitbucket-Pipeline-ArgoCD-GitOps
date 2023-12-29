@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodejs-frontend-backend-cors
+spec:
+  selector:
+    matchLabels:
+      app: nodejs-frontend-backend-cors
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  replicas: 1
+  template:
+    metadata:
+      labels: 
+        app: nodejs-frontend-backend-cors
+    spec:
+      containers:
+        - name: nodejs-frontend-backend-cors
+          image: XXXXXXXXXXXX.dkr.ecr.ap-south-1.amazonaws.com/nodejs-frontend-backend-cors-prod
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "128Mi"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 11001
+              name: nodejs-frontend-backend-cors

@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nodejs-frontend-1
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: git@bitbucket.org:repo-name/argocd-gitops.git
+    path: deployments
+    targetRevision: prod-release-nodejs-frontend-1
+    directory:
+      recurse: false
+      jsonnet: {}
+  destination:
+    namespace: nodejs-frontend-1
+    server: 'https://kubernetes.default.svc'
+  syncPolicy:
+    automated:
+      prune: true
+      allowEmpty: true
+    syncOptions:
+      - PruneLast=true
+      - CreateNamespace=true

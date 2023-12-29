@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: backend-nodejs-frontend-backend-cors-ingress
+  labels:
+    name: backend-nodejs-frontend-backend-cors-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+spec:
+  rules:
+  - host: nodejs-frontend-backend-cors.domain.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: nodejs-frontend-backend-cors-svc
+            port: 
+              number: 80

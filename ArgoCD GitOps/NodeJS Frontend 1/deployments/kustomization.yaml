@@ -1,0 +1,9 @@
+namespace: nodejs-frontend-1
+resources:
+  - ../base/NodeJS Frontend 1
+  - frontend-nodejs-frontend-1-ingress.yaml
+patchesStrategicMerge:
+  - frontend-nodejs-frontend-1-deploy.yaml
+images:
+  - name: XXXXXXXXXXXX.dkr.ecr.ap-south-1.amazonaws.com/nodejs-frontend-1-prod
+    newTag: '3'
