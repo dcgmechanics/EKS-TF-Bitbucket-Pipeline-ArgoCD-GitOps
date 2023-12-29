@@ -24,7 +24,7 @@ spec:
             - configMapRef:
                 name: backend-laravel-configmap
             - secretRef:
-                name: admin-laravel-secret
+                name: laravel-secret
           resources:
             requests:
               cpu: "50m"
