@@ -20,10 +20,10 @@ template:
 # To Run Specific Commands After Pod Runs Succesfully
 ```
 containers:
-        - name: your-app
-          lifecycle:
-             postStart:
-               exec:
-                 command: ["/usr/local/bin/node", "services/executeMe.js"]
+  - name: your-app
+    lifecycle:
+       postStart:
+         exec:
+           command: ["/usr/local/bin/node", "services/executeMe.js"]
 ```
 > This will execute the command on every pod launch.
