@@ -10,9 +10,20 @@ replicas: 2
 template:
   spec:
     nodeSelector:
-      eks.amazonaws.com/nodegroup: your-updated-nodegroup-label
+      eks.amazonaws.com/nodegroup: your-nodegroup-label
     containers:
-      - name: your-updated-container-name
-        image: your-ecr-url/your-updated-image-name:your-tag
+      - name: your-container-name
+        image: your-ecr-url/your-image-name:image-tag
 ```
 > Remember to keep the replicas to even number so that app will be distributed evenly.
+
+# To Run Specific Commands After Pod Runs Succesfully
+```
+containers:
+        - name: your-app
+          lifecycle:
+             postStart:
+               exec:
+                 command: ["/usr/local/bin/node", "services/executeMe.js"]
+```
+> This will execute the command on every pod launch.
